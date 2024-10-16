@@ -7,11 +7,21 @@ class Hospital:
         return Hospital.__instance
 
     def __init__(self):
-        self.usuarios = []
+        self.pacientes = []
         self.medicos = []
 
+    def buscar_paciente(self, identificacion):
+        for paciente in self.pacientes:
+            if paciente.identificacion == identificacion:
+                return paciente
+
+    def buscar_medico(self, identificacion):
+        for medico in self.medicos:
+            if medico.identificacion == identificacion:
+                return medico
+
     def agregar_paciente(self, paciente):
-        self.usuarios.append(paciente)
+        self.pacientes.append(paciente)
         print(f"Paciente {paciente.nombre} agregado al hospital.")
 
     def agregar_medico(self, medico):

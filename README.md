@@ -12,10 +12,20 @@ Este proyecto es un sistema de gestión de citas médicas diseñado para permiti
 - **Generación de Reportes**: El sistema puede generar reportes de demanda, tendencias de citas, causas de cancelaciones, y ausentismo, los cuales pueden exportarse a Excel.
 
 ## Ejecución
+### Iniciar el entorno
+```bash
+python3 -m venv .venv
+# source .venv/scripts/activate on Unix
+./.venv/Scripts/activate
+```
+
+### Instalacion librerias
+
+```bash
+```
 
 Ejecuta desde la terminal
-
-    ```bash
-    python app/main.py
-    ```
+```bash
+python app/main.py
+```
 
