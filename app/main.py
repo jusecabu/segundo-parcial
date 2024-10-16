@@ -2,8 +2,10 @@ from hospital import Hospital
 from persona_factory import PersonasFactory
 from utils import mostrar_menu, int_input, continuar
 from rich.prompt import Prompt
-from rich.console import Console
+import csv
+import json
 
+# Crear el hospital y los menus de la aplicacion
 hospital = Hospital()
 OPCIONES_MENU_HOSPITAL = {
     1: "Buscar persona",
@@ -13,25 +15,50 @@ OPCIONES_MENU_HOSPITAL = {
     5: "Salir"
 }
 OPCIONES_MENU_PACIENTE = {
-    1: "Talvez",
-    2: "Atras"
+    1: "Pedir cita",
+    2: "Cancelar cita",
+    3: "Mover cita - WP",
+    4: "Asignar medico de preferencia",
+    5: "Atras"
 }
 OPCIONES_MENU_MEDICO = {
     1: "Talvez",
     2: "Atras"
 }
 
+# Cargar los datos de medicos y pacientes
+medicos_data = []
+pacientes_data = []
+with open("./data/medicos.json", encoding="utf-8") as medicos_json:
+    medicos_data = json.load(medicos_json)
 
+with open("./data/pacientes.csv", encoding="utf-8") as pacientes_csv:
+    fuente = csv.reader(pacientes_csv, delimiter=",")
+
+    for linea in fuente:
+        pacientes_data.append(linea)
+
+del(pacientes_data[0])
+
+for medico_data in medicos_data:
+    persona = PersonasFactory.crear_persona("medico", int(medico_data["id"]), medico_data["nombre"], medico_data["celular"], medico_data["especialidad"])
+
+    hospital.agregar_medico(persona)
+
+for paciente_data in pacientes_data:
+    persona = PersonasFactory.crear_persona("paciente", int(paciente_data[0]), paciente_data[1], paciente_data[2], correo=paciente_data[3])
+
+    hospital.agregar_paciente(persona)
+
+# Aplicacion
 while True:
-    # print("\n--- Menú ---")
-    # print("1. Agregar persona")
     # print("2. Pedir cita")
     # print("3. Cancelar cita")
     # print("4. Asignar médico de preferencia")
     # print("5. Ver citas pendientes")
     # print("6. Salir")
 
-    opcion = mostrar_menu(OPCIONES_MENU_HOSPITAL, "MENU HOSPITAL")
+    opcion = mostrar_menu(OPCIONES_MENU_HOSPITAL, "Menu hospital")
 
     if opcion == 1:
         tipo_persona = Prompt.ask("Ingrese el tipo de persona", choices=["Medico", "Paciente"], case_sensitive=False).lower()
@@ -43,7 +70,7 @@ while True:
             persona = hospital.buscar_paciente(identificacion)
 
         if persona != None:
-            print(f"Se encontro el {tipo_persona}: {persona.nombre}")
+            print(f"Se encontro el {tipo_persona} {persona.nombre}")
         else:
             print(f"No se encontro el {tipo_persona}")
 
@@ -65,17 +92,62 @@ while True:
 
             hospital.agregar_paciente(persona)
     elif opcion == 3:
-        while True:
-            opcion_paciente = mostrar_menu(OPCIONES_MENU_PACIENTE, "MENU PACIENTE")
+        identificacion = int_input("Ingrese la identificacion: ")
+        paciente = hospital.buscar_paciente(identificacion)
 
-            if opcion_paciente == 1:
-                pass
-            elif opcion_paciente == 2:
-                break
-        
+        if paciente != None:
+            while True:
+            # 1: "Pedir cita",
+            # 2: "Cancelar cita",
+            # 3: "Mover cita - WP",
+            # 4: "Asignar medico de preferencia",
+            # 5: "Atras"
+                opcion_paciente = mostrar_menu(OPCIONES_MENU_PACIENTE, f"Menu paciente | {paciente.nombre}")
+
+                if opcion_paciente == 1:
+                    while True:
+                        identificacion_med = input("Ingrese la identificacion (En blanco para medico de preferencia): ")
+
+                        if identificacion_med == "":
+                            medico = paciente.medico_preferencia
+                            
+                            if medico != None:
+                                break
+                            else:
+                                print("No tiene un medico de preferencia")
+                        elif identificacion_med == "salir":
+                            break
+                        else:
+                            try:
+                                identificacion_med = int(identificacion_med)
+
+                                medico = hospital.buscar_medico(identificacion_med)
+
+                                if medico != None:
+                                    break
+                                else:
+                                    print(f"No se encontro el medico")
+                            except ValueError:
+                                print("Entrada inválida. Ingresa un número.")
+
+                elif opcion_paciente == 4:
+                    identificacion_med = int_input("Ingrese la identificacion: ")
+                    medico = hospital.buscar_medico(identificacion_med)
+
+                    if medico != None:
+                        paciente.asignar_medico_preferencia(medico)
+                    else:
+                        print(f"No se encontro el medico")
+
+                    continuar()
+                elif opcion_paciente == 5:
+                    break
+        else:
+            print(f"No se encontro el paciente")
+            continuar()
     elif opcion == 4:
         while True:
-            opcion_medico = mostrar_menu(OPCIONES_MENU_PACIENTE, "MENU MEDICO")
+            opcion_medico = mostrar_menu(OPCIONES_MENU_MEDICO, "MENU MEDICO")
 
             if opcion_medico == 1:
                 pass

@@ -28,10 +28,10 @@ class Hospital:
         self.medicos.append(medico)
         print(f"Médico {medico.nombre} agregado al hospital.")
 
-    def verificar_disponibilidad(self, paciente, especialidad):
-        for medico in self.medicos:
-            if medico.especialidad == especialidad:
-                if medico.verificar_disponibilidad(paciente.agenda.fecha):
-                    return medico
-        print(
-            f"No se encontró disponibilidad para la especialidad {especialidad}.")
+    # def verificar_disponibilidad(self, paciente, especialidad):
+    #     for medico in self.medicos:
+    #         if medico.especialidad == especialidad:
+    #             if medico.verificar_disponibilidad(paciente.agenda.fecha):
+    #                 return medico
+    #     print(
+    #         f"No se encontró disponibilidad para la especialidad {especialidad}.")

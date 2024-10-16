@@ -10,5 +10,4 @@ class Paciente(Persona):
 
     def asignar_medico_preferencia(self, medico):
         self.medico_preferencia = medico
-        print(
-            f"El médico {medico.nombre} ha sido asignado como preferencia para el paciente {self.nombre}")
+        print(f"El médico {medico.nombre} ha sido asignado como preferencia para el paciente {self.nombre}")
