@@ -22,6 +22,7 @@ python3 -m venv .venv
 ### Instalacion librerias
 
 ```bash
+pip install -r requirements.txt
 ```
 
 Ejecuta desde la terminal

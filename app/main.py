@@ -63,12 +63,6 @@ for paciente_data in pacientes_data:
 
 # Aplicacion
 while True:
-    # print("2. Pedir cita")
-    # print("3. Cancelar cita")
-    # print("4. Asignar médico de preferencia")
-    # print("5. Ver citas pendientes")
-    # print("6. Salir")
-
     opcion = mostrar_menu(OPCIONES_MENU_HOSPITAL, "Menu hospital")
 
     if opcion == 1:
@@ -122,11 +116,6 @@ while True:
 
         if paciente is not None:
             while True:
-                # 1: "Pedir cita",
-                # 2: "Cancelar cita",
-                # 3: "Mover cita - WP",
-                # 4: "Asignar medico de preferencia",
-                # 5: "Atras"
                 opcion_paciente = mostrar_menu(
                     OPCIONES_MENU_PACIENTE, f"Menu paciente | {paciente.nombre}"
                 )
@@ -204,22 +193,6 @@ while True:
         print("Saliendo del programa...")
         break
 
-    # elif opcion == 2:
-    #     id_paciente = input("Ingrese la identificación del paciente: ")
-    #     id_medico = input("Ingrese la identificación del médico: ")
-    #     fecha = input("Ingrese la fecha de la cita (YYYY-MM-DD): ")
-    #     motivo = input("Ingrese el motivo de la cita: ")
-
-    #     paciente = next(
-    #         (p for p in hospital.usuarios if p.identificacion == id_paciente), None)
-    #     medico = next(
-    #         (m for m in hospital.medicos if m.identificacion == id_medico), None)
-
-    #     if paciente and medico:
-    #         paciente.pedir_cita(medico, fecha, motivo)
-    #     else:
-    #         print("Paciente o médico no encontrado.")
-
     # elif opcion == 3:
     #     id_paciente = int(input("Ingrese la identificación del paciente: "))
     #     paciente = next(
@@ -238,20 +211,6 @@ while True:
     #             print("Opción inválida.")
     #     else:
     #         print("Paciente no encontrado.")
-
-    # elif opcion == 4:
-    #     id_paciente = int(input("Ingrese la identificación del paciente: "))
-    #     id_medico = int(input("Ingrese la identificación del médico: "))
-
-    #     paciente = next(
-    #         (p for p in hospital.usuarios if p.identificacion == id_paciente), None)
-    #     medico = next(
-    #         (m for m in hospital.medicos if m.identificacion == id_medico), None)
-
-    #     if paciente and medico:
-    #         paciente.asignar_medico_preferencia(medico)
-    #     else:
-    #         print("Paciente o médico no encontrado.")
 
     # elif opcion == 5:
     #     id_paciente = int(input("Ingrese la identificación del paciente: "))
